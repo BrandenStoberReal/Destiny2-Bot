@@ -7,3 +7,8 @@ This bot is written in NodeJS to provide the best compatability with both the De
 ```
 npm install
 ```
+
+# Running
+```
+node .
+```

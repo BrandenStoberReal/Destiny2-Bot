@@ -1,5 +1,7 @@
 /* eslint-disable no-inline-comments */
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { sendPublicEmbed, handleError } = require(global.root +
+  "/libraries/util.js");
 
 module.exports = {
   name: "ping",
@@ -9,9 +11,15 @@ module.exports = {
     .setName("ping")
     .setDescription("Replies with the bot's current WebSocket ping"),
   execute(interaction, client) {
-    interaction.reply({
-      content: "Pong! ``" + client.ws.ping + "ms``",
-      ephemeral: false,
-    });
+    try {
+      sendPublicEmbed(
+        interaction,
+        "Pong!",
+        "Websocket Ping: ``" + client.ws.ping + "ms``",
+        "https://media.tenor.com/0AVbKGY_MxMAAAAM/check-mark-verified.gif"
+      );
+    } catch (e) {
+      handleError(interaction, e);
+    }
   },
 };

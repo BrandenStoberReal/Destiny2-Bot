@@ -6,6 +6,7 @@ const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const Handler = require("discord-handlers");
 const { Collection } = require("mongoose");
 const handler = new Handler();
+global.root = __dirname;
 
 const client = new Client({
   typescript: false,
@@ -53,4 +54,4 @@ handler.handleGlobalCommands(
 global.admins = ["959826700236099614"];
 global.embedcolor = "BLUE";
 global.client = client;
-global.commands = new Collection();
+global.commands = [];

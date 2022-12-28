@@ -29,7 +29,10 @@ module.exports.sendPrivateEmbed = async function sendEmbed(
     .setDescription(description)
     .setColor(EmbedColor)
     .setTimestamp()
-    .setFooter({ iconURL: client.user.avatarURL(), text: "Euphorium 1.0.0" });
+    .setFooter({
+      iconURL: client.user.avatarURL(),
+      text: "Euphorium " + global.version,
+    });
   if (thumbnail != "None") {
     embed.setThumbnail(thumbnail);
   }
@@ -51,7 +54,10 @@ module.exports.sendPublicEmbed = async function sendEmbed(
     .setDescription(description)
     .setColor(EmbedColor)
     .setTimestamp()
-    .setFooter({ iconURL: client.user.avatarURL(), text: "Euphorium 1.0.0" });
+    .setFooter({
+      iconURL: client.user.avatarURL(),
+      text: "Euphorium " + global.version,
+    });
   if (thumbnail != "None") {
     embed.setThumbnail(thumbnail);
   }

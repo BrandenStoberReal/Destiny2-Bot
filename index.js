@@ -44,6 +44,7 @@ const Token = process.env.TOKEN;
 client.login(Token);
 
 // Assign Pre-Load Global Variables
+global.version = "1.0.0";
 global.admins = ["959826700236099614"];
 global.embedcolor = "Blue";
 global.client = client;

@@ -1,6 +1,6 @@
 const util = require("util");
 const Discord = require("discord.js");
-const EmbedColor = "Blue"; // Change if needed
+const EmbedColor = global.embedcolor;
 
 // Handles errors if any pop up
 module.exports.handleError = async function handleError(interaction, error) {
@@ -24,21 +24,14 @@ module.exports.sendPrivateEmbed = async function sendEmbed(
   description,
   thumbnail = "None"
 ) {
-  if (thumbnail == "None") {
-    const embed = new Discord.EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor(EmbedColor)
-      .setTimestamp()
-      .setFooter({ text: "Euphorium 1.0.0" });
-  } else {
-    const embed = new Discord.EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor(EmbedColor)
-      .setThumbnail(thumbnail)
-      .setTimestamp()
-      .setFooter({ text: "Euphorium 1.0.0" });
+  let embed = new Discord.EmbedBuilder()
+    .setTitle(title)
+    .setDescription(description)
+    .setColor(EmbedColor)
+    .setTimestamp()
+    .setFooter({ iconURL: client.user.avatarURL(), text: "Euphorium 1.0.0" });
+  if (thumbnail != "None") {
+    embed.setThumbnail(thumbnail);
   }
 
   return await interaction
@@ -53,22 +46,14 @@ module.exports.sendPublicEmbed = async function sendEmbed(
   description,
   thumbnail = "None"
 ) {
-  let embed;
-  if (thumbnail == "None") {
-    embed = new Discord.EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor(EmbedColor)
-      .setTimestamp()
-      .setFooter({ text: "Euphorium 1.0.0" });
-  } else {
-    embed = new Discord.EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor(EmbedColor)
-      .setThumbnail(thumbnail)
-      .setTimestamp()
-      .setFooter({ text: "Euphorium 1.0.0" });
+  let embed = new Discord.EmbedBuilder()
+    .setTitle(title)
+    .setDescription(description)
+    .setColor(EmbedColor)
+    .setTimestamp()
+    .setFooter({ iconURL: client.user.avatarURL(), text: "Euphorium 1.0.0" });
+  if (thumbnail != "None") {
+    embed.setThumbnail(thumbnail);
   }
 
   return await interaction

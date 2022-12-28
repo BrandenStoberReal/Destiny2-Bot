@@ -1,4 +1,3 @@
-/* eslint-disable no-inline-comments */
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { sendPublicEmbed, handleError } = require(global.root +
   "/libraries/util.js");

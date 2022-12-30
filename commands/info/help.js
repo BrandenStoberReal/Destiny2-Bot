@@ -130,14 +130,14 @@ module.exports = new Command({
       // If query doesn't exist at all
       else {
         let NoCommandEmbed = new Discord.EmbedBuilder()
-          .setColor(global.embedcolor)
+          .setColor("Red")
           .setTitle("Not Found")
           .setDescription(
             `Sorry, command or category \"\`\`${query}\`\`\" was not found!`
           )
           .setTimestamp()
           .setFooter({
-            text: client.user.username,
+            text: "Great now im sad",
             iconURL: client.user.avatarURL({
               size: 512,
               format: "png",
@@ -189,16 +189,27 @@ module.exports = new Command({
 
       // Generate a button containing an invite to our bot
       const botInvite = new Discord.ButtonBuilder()
-        .setLabel("Invite me!")
+        .setLabel("Add me!")
         .setURL(
           `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`
         )
         .setStyle("Link");
 
+      // Generate a button containing a link to discord's status page
+      const discordStatus = new Discord.ButtonBuilder()
+        .setLabel("Discord's API Status")
+        .setURL("https://status.discord.com/")
+        .setStyle("Link");
+
       // Reply to the user's interaction
       await reply({
         embeds: [embed],
-        components: [new Discord.ActionRowBuilder().addComponents(botInvite)],
+        components: [
+          new Discord.ActionRowBuilder().addComponents([
+            botInvite,
+            discordStatus,
+          ]),
+        ],
       });
     }
   },

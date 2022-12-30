@@ -2,13 +2,13 @@
 // Dependencies included: js, js voice, bufferutil, utf-8-decode, and zlib.
 const Env = require("dotenv");
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
-const Handler = require("discord-handlers");
+const { DiscomClient } = require("discom");
 const { Collection } = require("mongoose");
-const handler = new Handler(); // Basic commands handler. All rights reserved.
 global.root = __dirname; // Project root. Needed by some commands.
+global.utilLib = __dirname + "/libraries/util.js";
 
 // Discord Client Instantiation
-const client = new Client({
+const client = new DiscomClient({
   typescript: false,
   intents: [
     GatewayIntentBits.Guilds,
@@ -32,6 +32,15 @@ const client = new Client({
     GatewayIntentBits.AutoModerationExecution,
   ],
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+  language: "en-US",
+  cmdDir: __dirname + "/commands",
+  eventDir: __dirname + "/events",
+  commands: {
+    loadFromCache: true,
+    autoDefer: true,
+    allowDm: true,
+    deleteNonExistent: true,
+  },
 });
 
 // Process the .env file
@@ -49,12 +58,3 @@ global.admins = ["959826700236099614"];
 global.embedcolor = "Blue";
 global.client = client;
 global.commands = [];
-
-// Handler Events
-handler.handleClientEvents("./events", client);
-handler.handleGlobalCommands(
-  "./commands",
-  client,
-  "1044374073624494161",
-  Token
-);

@@ -3,7 +3,6 @@
     "@discordjs/voice": "^0.13.0",
     "bufferutil": "^4.0.7",
     "discom": "^3.0.6-dev",
-    "discord-handlers": "^0.0.1",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "erlpack": "github:discord/erlpack",

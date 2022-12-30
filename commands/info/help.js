@@ -120,6 +120,21 @@ module.exports = new Command({
           });
 
         await reply({ embeds: [em] });
+      } else {
+        let NoCommandEmbed = new Discord.EmbedBuilder()
+          .setColor(global.embedcolor)
+          .setTitle("Not Found")
+          .setDescription("Sorry, we couldn't find that command or category!")
+          .setTimestamp()
+          .setFooter({
+            text: client.user.username,
+            iconURL: client.user.avatarURL({
+              size: 512,
+              format: "png",
+              dynamic: true,
+            }),
+          });
+        return reply({ embeds: [NoCommandEmbed] });
       }
     } else {
       const categories = client.categories;

@@ -9,11 +9,10 @@ module.exports = new Command({
   category: "info",
   description: "Sends all commands or the help for commands",
   usage: "help [command]",
-  aliases: ["cmds", "commands", "cmd", "command"],
   options: [
     {
       name: "Command Or Category",
-      description: "Get the info on a command or category",
+      description: "Gets the info on a command or category",
       type: ArgumentType.STRING,
       required: false,
     },
@@ -22,14 +21,19 @@ module.exports = new Command({
     return brandUtil.handleError(reply, error);
   },
   async run({ client, reply, guild, author, args }) {
-    const PREFIX = "/";
-    let query;
+    const PREFIX = "/"; // Will always return "/" due to Discord API changes
+    let query; // Placeholder variable, gets filled below
+
+    // Somewhat dumb variable integrity check
     if (args.data[0]) {
       query = args.data[0].value.toString();
     } else {
       query = undefined;
     }
+
+    // If the user specifies a command/category to get more information on
     if (query != undefined) {
+      // If query is a command
       if (client.commands.has(query.toLowerCase())) {
         const command = client.commands.get(query.toLowerCase());
         const userRequired = command.userRequiredPermissions
@@ -98,7 +102,9 @@ module.exports = new Command({
           });
 
         await reply({ embeds: [SHembed] });
-      } else if (client.categories.includes(query.toLowerCase())) {
+      }
+      // If query is a category
+      else if (client.categories.includes(query.toLowerCase())) {
         const commands = client.commands
           .filter((m) => m.category == query)
           .map((m) => m.name);
@@ -120,7 +126,9 @@ module.exports = new Command({
           });
 
         await reply({ embeds: [em] });
-      } else {
+      }
+      // If query doesn't exist at all
+      else {
         let NoCommandEmbed = new Discord.EmbedBuilder()
           .setColor(global.embedcolor)
           .setTitle("Not Found")
@@ -138,8 +146,12 @@ module.exports = new Command({
           });
         return reply({ embeds: [NoCommandEmbed] });
       }
-    } else {
+    }
+    // If the user runs the command with no arguments
+    else {
       const categories = client.categories;
+
+      // Embed base code
       const embed = new Discord.EmbedBuilder()
         .setColor(global.embedcolor)
         .setTitle(`Help`)
@@ -149,6 +161,7 @@ module.exports = new Command({
           text: `For more info about commands do ${PREFIX}help [Command name]`,
         });
 
+      // Loop through commands and format them for our embed's fields
       let embedFields = [];
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
@@ -174,6 +187,7 @@ module.exports = new Command({
       }
       embed.addFields(embedFields);
 
+      // Generate a button containing an invite to our bot
       const botInvite = new Discord.ButtonBuilder()
         .setLabel("Invite me!")
         .setURL(
@@ -181,6 +195,7 @@ module.exports = new Command({
         )
         .setStyle("Link");
 
+      // Reply to the user's interaction
       await reply({
         embeds: [embed],
         components: [new Discord.ActionRowBuilder().addComponents(botInvite)],

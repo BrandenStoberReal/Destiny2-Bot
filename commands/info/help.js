@@ -124,7 +124,9 @@ module.exports = new Command({
         let NoCommandEmbed = new Discord.EmbedBuilder()
           .setColor(global.embedcolor)
           .setTitle("Not Found")
-          .setDescription("Sorry, we couldn't find that command or category!")
+          .setDescription(
+            `Sorry, command or category \"\`\`${query}\`\`\" was not found!`
+          )
           .setTimestamp()
           .setFooter({
             text: client.user.username,

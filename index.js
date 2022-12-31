@@ -4,6 +4,7 @@ const Env = require("dotenv");
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const { DiscomClient } = require("discom");
 const { Collection } = require("mongoose");
+const socket = require("socket.io")();
 global.root = __dirname; // Project root. Needed by some commands.
 global.utilLib = __dirname + "/libraries/util.js";
 
@@ -60,4 +61,7 @@ global.version = "1.0.1";
 global.admins = ["959826700236099614", "520349721823281152"];
 global.embedcolor = "Blue";
 global.client = client;
-global.commands = [];
+
+// Sockets
+socket.on("oauth-complete", (client) => {});
+socket.listen(6500);

@@ -43,6 +43,9 @@ const client = new DiscomClient({
   },
 });
 
+// Log events to console
+client.on("log", console.log);
+
 // Process the .env file
 Env.config({ path: "./.env" });
 
@@ -53,8 +56,8 @@ const Token = process.env.TOKEN;
 client.login(Token);
 
 // Assign Pre-Load Global Variables
-global.version = "1.0.0";
-global.admins = ["959826700236099614"];
+global.version = "1.0.1";
+global.admins = ["959826700236099614", "520349721823281152"];
 global.embedcolor = "Blue";
 global.client = client;
 global.commands = [];

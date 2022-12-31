@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const { Command } = require("discom");
+const brandUtil = require(global.utilLib);
 
 module.exports = new Command({
   name: "ping",
@@ -22,9 +23,7 @@ module.exports = new Command({
       var pinged = new Discord.EmbedBuilder()
         .setColor(global.embedcolor)
         .setTimestamp()
-        .setThumbnail(
-          "https://cdn.discordapp.com/emojis/723073203307806761.gif?v=1"
-        )
+        .setThumbnail(brandUtil.CheckmarkGif)
         .setDescription(
           `**Rest API Latency**\n\`${
             endTime - startTime

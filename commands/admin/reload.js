@@ -16,6 +16,13 @@ module.exports = new Command({
       command[1].reload();
     }
 
-    await reply({ content: "Reloaded all commands!" });
+    return await brandUtil.sendEmbed(
+      reply,
+      "Success",
+      "Successfully reloaded all commands!",
+      true,
+      global.embedcolor,
+      brandUtil.CheckmarkGif
+    );
   },
 });

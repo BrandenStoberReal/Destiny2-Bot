@@ -11,7 +11,7 @@ module.exports = new Command({
   usage: "help [command]",
   options: [
     {
-      name: "Command Or Category",
+      name: "command",
       description: "Gets the info on a command or category",
       type: ArgumentType.STRING,
       required: false,
@@ -22,17 +22,10 @@ module.exports = new Command({
   },
   async run({ client, reply, guild, author, args }) {
     const PREFIX = "/"; // Will always return "/" due to Discord API changes
-    let query; // Placeholder variable, gets filled below
-
-    // Somewhat dumb variable integrity check
-    if (args.data[0]) {
-      query = args.data[0].value.toString();
-    } else {
-      query = undefined;
-    }
+    let query = args.get("command")?.value;
 
     // If the user specifies a command/category to get more information on
-    if (query != undefined) {
+    if (query) {
       // If query is a command
       if (client.commands.has(query.toLowerCase())) {
         const command = client.commands.get(query.toLowerCase());
@@ -46,7 +39,8 @@ module.exports = new Command({
             ? command.clientRequiredPermissions
             : command.clientRequiredPermissions.join(", ")
           : "None";
-        let isSlash = "Disabled";
+        const isSlash = !command.isSlashDisabled ? "Yes" : "No";
+        const isEnabled = !command.disabled;
         let isContext = "Disabled";
         if (command.slash || command.slash === "false") {
           if (command.slash === "slash") isSlash = "Slash Only";
@@ -81,14 +75,15 @@ module.exports = new Command({
               `**Name:** ${command.name}`,
               `**Description:** ${command.description}`,
               `**Category:** ${command.category || "None"}`,
-              `**User Required Permissions:** ${userRequired}`,
-              `**Client Required Permissions:** ${clientRequired}`,
+              `**User Required Permissions:** ${userRequired || "None"}`,
+              `**Client Required Permissions:** ${clientRequired || "None"}`,
               `**Cooldown:** ${command.cooldown || "None"}`,
               `**NSFW:** ${command.nsfw ? "Yes" : "No"}`,
-              `**Slash:** ${isSlash}`,
+              `**Slash Enabled:** ${isSlash}`,
               `**Context Menu:** ${isContext}`,
-              `**Usage:** ${PREFIX}${command.usage || command.name}`,
+              `**Usage:** /${command.usage || command.name}`,
               `**Allowed on DMs:** ${command.allowDm ? "Yes" : "No"}`,
+              `**Enabled:** ${isEnabled ? "Yes" : "No"}`,
             ].join("\n")
           )
           .setTimestamp()
@@ -155,7 +150,6 @@ module.exports = new Command({
       const embed = new Discord.EmbedBuilder()
         .setColor(global.embedcolor)
         .setTitle(`Help`)
-        .setDescription(`**Server prefix is:** \`${PREFIX}\`\n`)
         .setTimestamp()
         .setFooter({
           text: `For more info about commands do ${PREFIX}help [Command name]`,
@@ -197,8 +191,10 @@ module.exports = new Command({
 
       // Generate a button containing a link to discord's status page
       const discordStatus = new Discord.ButtonBuilder()
-        .setLabel("Discord's API Status")
-        .setURL("https://status.discord.com/")
+        .setLabel("Bungie Forums")
+        .setURL(
+          "https://www.bungie.net/en/Forums/Topics/?tg=Help&tSort=3&tType=0&d=0&lang=en"
+        )
         .setStyle("Link");
 
       // Reply to the user's interaction
